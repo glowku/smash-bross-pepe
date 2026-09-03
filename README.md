@@ -5,7 +5,7 @@
 # Pepe & Cat Smash
 
 <p align="center">
-  <a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE"><img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=flat&color=blue" alt="License"></a>&nbsp;
+  <a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat" alt="License"></a>&nbsp;
   <a href="https://github.com/glowku/smash-bross-pepe/stargazers"><img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=flat&color=yellow" alt="Stars"></a>&nbsp;
   <a href="https://github.com/glowku/smash-bross-pepe/network/members"><img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=flat&color=blue" alt="Forks"></a>&nbsp;
   <a href="https://github.com/glowku/smash-bross-pepe/issues"><img src="https://img.shields.io/github/issues/glowku/smash-bross-pepe?style=flat&color=red" alt="Issues"></a>&nbsp;
