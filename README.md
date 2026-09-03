@@ -43,9 +43,9 @@ This project is 100% open-source, highly modular, and engineered for easy extens
 
 1. **Fork the Repository**: Click the **Fork** button at the top right of this page.
 2. **Clone your Local Repository**:
-```bash
+
 git clone https://github.com/glowku/smash-bross-pepe.git
-```
+
 ## Key Features
 
 * **10 Playable Classes**: Tracksuit, Knight, Rogue, Archer, Mage, Cat Shogun, Cat Ninja, Cat Wizard, Cat Berserk, and Cat Astro.
