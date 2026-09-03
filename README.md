@@ -1,49 +1,47 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/glowku/smash-bross-pepe/main/1.gif" alt="Pepe & Cat Smash Gameplay Showcase" width="100%">
+</p>
+
 # 🐸 PEPE & CAT SMASH ⚔️
 
 <p align="center">
-  <img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=for-the-badge&color=green" alt="MIT License">
-  <img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge&color=gold" alt="GitHub Stars">
-  <img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge&color=blue" alt="GitHub Forks">
-  <img src="https://img.shields.io/badge/PLAY-ONLINE-ff69b4?style=for-the-badge" alt="Play Online">
+  <a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=for-the-badge&color=28a745" alt="MIT License">
+  </a>
+  <a href="https://github.com/glowku/smash-bross-pepe/stargazers">
+    <img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge&color=ffd700" alt="GitHub Stars">
+  </a>
+  <a href="https://github.com/glowku/smash-bross-pepe/network/members">
+    <img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge&color=007bff" alt="GitHub Forks">
+  </a>
+  <a href="https://glowku.github.io/smash-bross-pepe/">
+    <img src="https://img.shields.io/badge/PLAY-ONLINE-ff69b4?style=for-the-badge" alt="Play Online">
+  </a>
 </p>
 
-> **A chaotic, fast-paced 2D Pixel Art brawler built entirely in pure web tech. Choose your class, unleash insane 3000-mile launches, and send your rivals into the void!**
+---
+
+### 📌 Overview
+
+**PEPE & CAT SMASH** is an action-packed, fast-paced 2D pixel-art arena brawler built with lightweight, vanilla web technologies. Featuring responsive controls, high-impact physics, and distinct character classes, players engage in dynamic combat designed to launch opponents across massive distances.
+
+👉 **[Launch Live Demo in Browser](https://glowku.github.io/smash-bross-pepe/)**
 
 ---
 
-## 🎮 Play Directly in Your Browser
+## 🚀 Call for Contributors: Meme Expansion & Community Fork
 
-👉 **[PLAY NOW (Live Demo)](https://glowku.github.io/smash-bross-pepe/)**
+> **Who's ready to turn this into the ultimate internet culture brawler?**
 
----
+This project is **100% open-source**, highly modular, and engineered for easy extensibility. We are actively inviting developers, pixel artists, and creators to **fork the repository** and contribute:
 
-## 🔥 Key Features
+* **New Meme Characters & Classes**: Custom sprites, abilities, and animations.
+* **Dynamic Arenas & Hazards**: Interactive maps, traps, and sound effects.
+* **Gameplay Mechanics**: Power-ups, balance updates, and multiplayer extensions.
 
-* **10 Unique Classes**: Tracksuit, Knight, Rogue, Archer, Mage, Cat Shogun, Cat Ninja, Cat Wizard, Cat Berserk, and Cat Astro.
-* **Insane Launch Mechanics**: Charge special attacks to trigger massive 3000-mile knockbacks!
-* **Zero Dependencies**: Lightweight, fast-loading, pure HTML5 / CSS3 / JavaScript single-page game.
-* **Retro Arcade Vibes**: Pixel-art aesthetic, fluid physics, and instant action.
+### How to Contribute:
 
----
-
-## ⌨️ Controls
-
-| Action | Key (AZERTY / QWERTY) |
-| :--- | :--- |
-| **Move Left / Right** | `Q` / `D` or `A` / `D` |
-| **Jump & Recovery** | `J` or `SPACE` |
-| **Aim & Charge** | Hold `J` |
-| **Charged Specials** | `K`, `L`, `M` |
-
----
-
-## 🛠️ Want to Add New Features? (Fork & Contribute)
-
-Got ideas for **new fighters, crazy stage hazards, online multiplayer, or custom sound effects**? This project is **100% open-source** and built to be easily modded!
-
-### How to get started:
-
-1. **Fork the repository** (click the **Fork** button at the top right of this page).
-2. **Clone your fork**:
+1. **Fork the Repository**: Click the **Fork** button at the top right of this page.
+2. **Clone your Local Repository**:
    ```bash
-   git clone [https://github.com/YOUR-USERNAME/smash-bross-pepe.git](https://github.com/YOUR-USERNAME/smash-bross-pepe.git)
+   git clone [https://github.com/glowku/smash-bross-pepe.git](https://github.com/glowku/smash-bross-pepe.git)
