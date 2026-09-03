@@ -6,33 +6,34 @@
 
 <p align="center">
   <a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=flat-square&color=blue" alt="License MIT">
+    <img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=flat&color=blue" alt="License MIT">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/stargazers">
-    <img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=flat-square&color=yellow" alt="Stars">
+    <img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=flat&color=yellow" alt="Stars">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/network/members">
-    <img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=flat-square&color=blue" alt="Forks">
+    <img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=flat&color=blue" alt="Forks">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/issues">
-    <img src="https://img.shields.io/github/issues/glowku/smash-bross-pepe?style=flat-square&color=red" alt="Issues">
+    <img src="https://img.shields.io/github/issues/glowku/smash-bross-pepe?style=flat&color=red" alt="Issues">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/pulls">
-    <img src="https://img.shields.io/github/issues-pr/glowku/smash-bross-pepe?style=flat-square&color=green" alt="Pull Requests">
+    <img src="https://img.shields.io/github/issues-pr/glowku/smash-bross-pepe?style=flat&color=green" alt="Pull Requests">
   </a>
   <a href="https://glowku.github.io/smash-bross-pepe/">
-    <img src="https://img.shields.io/badge/Play_Online-ff69b4?style=flat-square&logo=githubpages&logoColor=white" alt="Play Online">
+    <img src="https://img.shields.io/badge/Play_Online-ff69b4?style=flat&logo=githubpages&logoColor=white" alt="Play Online">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/commits/main">
-    <img src="https://img.shields.io/github/last-commit/glowku/smash-bross-pepe?style=flat-square&color=purple" alt="Last Commit">
+    <img src="https://img.shields.io/github/last-commit/glowku/smash-bross-pepe?style=flat&color=purple" alt="Last Commit">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Made_with-Vanilla_JS-f7df1e?style=flat-square&logo=javascript&logoColor=black" alt="Made with Vanilla JS">
+    <img src="https://img.shields.io/badge/Made_with-Vanilla_JS-f7df1e?style=flat&logo=javascript&logoColor=black" alt="Made with Vanilla JS">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/deployments">
-    <img src="https://img.shields.io/github/deployments/glowku/smash-bross-pepe/github-pages?style=flat-square&label=Deployment&color=success" alt="Deployment">
+    <img src="https://img.shields.io/github/deployments/glowku/smash-bross-pepe/github-pages?style=flat&label=Deployment&color=success" alt="Deployment">
   </a>
 </p>
+
 
 ---
 
