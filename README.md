@@ -1,17 +1,10 @@
-<<p align="center">
-  <img src="https://raw.githubusercontent.com/glowku/smash-bross-pepe/main/1.gif" alt="Pepe & Cat Smash Gameplay Showcase" width="100%">
-</p>
-
-# Pepe & Cat Smash
-
-<p align="center"><a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE"><img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=for-the-badge" alt="License"></a><a href="https://github.com/glowku/smash-bross-pepe/stargazers"><img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge" alt="Stars"></a><a href="https://github.com/glowku/smash-bross-pepe/network/members"><img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge" alt="Forks"></a><a href="https://github.com/glowku/smash-bross-pepe/issues"><img src="https://img.shields.io/github/issues/glowku/smash-bross-pepe?style=for-the-badge" alt="Issues"></a><a href="https://github.com/glowku/smash-bross-pepe/pulls"><img src="https://img.shields.io/github/issues-pr/glowku/smash-bross-pepe?style=for-the-badge" alt="Pull Requests"></a><a href="https://glowku.github.io/smash-bross-pepe/"><img src="https://img.shields.io/badge/Play_Online-ff69b4?style=for-the-badge&logo=github&logoColor=white" alt="Play Online"></a><a href="https://github.com/glowku/smash-bross-pepe/commits/main"><img src="https://img.shields.io/github/last-commit/glowku/smash-bross-pepe?style=for-the-badge" alt="Last Commit"></a><a href="#"><img src="https://img.shields.io/badge/Made_with-Vanilla_JS-f7df1e?style=for-the-badge&logo=javascript&logoColor=black" alt="Made with Vanilla JS"></a></p><p align="center">
+<p align="center">
   <img src="https://raw.githubusercontent.com/glowku/smash-bross-pepe/main/1.gif" alt="Pepe & Cat Smash Gameplay Showcase" width="100%">
 </p>
 
 # Pepe & Cat Smash
 
 <p align="center"><a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE"><img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=for-the-badge" alt="License"></a><a href="https://github.com/glowku/smash-bross-pepe/stargazers"><img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge" alt="Stars"></a><a href="https://github.com/glowku/smash-bross-pepe/network/members"><img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge" alt="Forks"></a><a href="https://github.com/glowku/smash-bross-pepe/issues"><img src="https://img.shields.io/github/issues/glowku/smash-bross-pepe?style=for-the-badge" alt="Issues"></a><a href="https://github.com/glowku/smash-bross-pepe/pulls"><img src="https://img.shields.io/github/issues-pr/glowku/smash-bross-pepe?style=for-the-badge" alt="Pull Requests"></a><a href="https://glowku.github.io/smash-bross-pepe/"><img src="https://img.shields.io/badge/Play_Online-ff69b4?style=for-the-badge&logo=github&logoColor=white" alt="Play Online"></a><a href="https://github.com/glowku/smash-bross-pepe/commits/main"><img src="https://img.shields.io/github/last-commit/glowku/smash-bross-pepe?style=for-the-badge" alt="Last Commit"></a><a href="#"><img src="https://img.shields.io/badge/Made_with-Vanilla_JS-f7df1e?style=for-the-badge&logo=javascript&logoColor=black" alt="Made with Vanilla JS"></a></p>
-
 ---
 
 ## Overview
