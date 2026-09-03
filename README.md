@@ -2,136 +2,156 @@
   <img src="https://raw.githubusercontent.com/glowku/smash-bross-pepe/main/1.gif" alt="Pepe & Cat Smash Gameplay Showcase" width="100%">
 </p>
 
-# 🐸 PEPE & CAT SMASH
+# Pepe & Cat Smash
 
 <p align="center">
   <a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=for-the-badge&color=blue" alt="MIT License">
+    <img src="https://img.shields.io/github/license/glowku/smash-bross-pepe?style=flat-square&color=blue" alt="License MIT">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/stargazers">
-    <img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge&color=yellow" alt="GitHub Stars">
+    <img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=flat-square&color=yellow" alt="Stars">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/network/members">
-    <img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge&color=blue" alt="GitHub Forks">
+    <img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=flat-square&color=blue" alt="Forks">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/issues">
-    <img src="https://img.shields.io/github/issues/glowku/smash-bross-pepe?style=for-the-badge&color=red" alt="GitHub Issues">
+    <img src="https://img.shields.io/github/issues/glowku/smash-bross-pepe?style=flat-square&color=red" alt="Issues">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/pulls">
-    <img src="https://img.shields.io/github/issues-pr/glowku/smash-bross-pepe?style=for-the-badge&color=green" alt="GitHub Pull Requests">
+    <img src="https://img.shields.io/github/issues-pr/glowku/smash-bross-pepe?style=flat-square&color=green" alt="Pull Requests">
   </a>
   <a href="https://glowku.github.io/smash-bross-pepe/">
-    <img src="https://img.shields.io/badge/Play_Now-Online-ff69b4?style=for-the-badge&logo=githubpages" alt="Play Online">
+    <img src="https://img.shields.io/badge/Play_Online-ff69b4?style=flat-square&logo=githubpages&logoColor=white" alt="Play Online">
   </a>
   <a href="https://github.com/glowku/smash-bross-pepe/commits/main">
-    <img src="https://img.shields.io/github/last-commit/glowku/smash-bross-pepe?style=for-the-badge&color=purple" alt="Last Commit">
+    <img src="https://img.shields.io/github/last-commit/glowku/smash-bross-pepe?style=flat-square&color=purple" alt="Last Commit">
   </a>
   <a href="#">
-    <img src="https://img.shields.io/badge/Made_with-Vanilla_JS-f7df1e?style=for-the-badge&logo=javascript" alt="Made with Vanilla JS">
+    <img src="https://img.shields.io/badge/Made_with-Vanilla_JS-f7df1e?style=flat-square&logo=javascript&logoColor=black" alt="Made with Vanilla JS">
+  </a>
+  <a href="https://github.com/glowku/smash-bross-pepe/deployments">
+    <img src="https://img.shields.io/github/deployments/glowku/smash-bross-pepe/github-pages?style=flat-square&label=Deployment&color=success" alt="Deployment">
   </a>
 </p>
 
 ---
 
-## 📖 Overview
+## Overview
 
-**PEPE & CAT SMASH** is an action-packed, fast-paced 2D pixel-art arena brawler built with lightweight, vanilla web technologies. Featuring responsive controls, high-impact physics, and distinct character classes, players engage in dynamic combat designed to launch opponents across massive distances—up to **3,000 miles**!
+**Pepe & Cat Smash** is a fast‑paced, 2D pixel‑art arena brawler built entirely with vanilla web technologies (HTML5, CSS, JavaScript). The game features responsive controls, high‑impact physics, and a roster of distinct meme‑inspired characters. Players charge attacks to launch opponents across the arena – with a full charge sending rivals flying over **3,000 miles** for an instant knockout.
 
-> 🎮 **[Launch Live Demo in Browser](https://glowku.github.io/smash-bross-pepe/)** — no downloads, no installs, just pure browser brawling!
+The project is **open‑source** (MIT license), fully modular, and designed for easy extension. Whether you are a developer, pixel artist, or game designer, you are invited to contribute new characters, arenas, gameplay mechanics, or visual improvements.
 
----
-
-## ✨ Features
-
-| Feature | Description |
-|---------|-------------|
-| 🎯 **3000-Mile Launches** | Charge your attacks to send opponents flying across the arena. Full charge = instant KO! |
-| 🐸 **10 Unique Classes** | Choose from a roster of meme-inspired fighters, each with distinct abilities. |
-| 🎨 **Pixel Art 3D** | Retro pixel aesthetics with a modern 3D twist for immersive arena action. |
-| 🧠 **Smart AI Opponent** | Battle against a CPU opponent that adapts and challenges your skills. |
-| ⌨️ **Responsive Controls** | Smooth, low-latency input for precise movement and attack timing. |
-| ⚡ **High-Impact Physics** | Realistic knockback, air resistance, and recovery mechanics. |
-| 🏆 **Best-of-3 KOs** | First to land 3 KOs wins the match. Simple, brutal, addictive. |
-| 📊 **Match Stats** | Track your max combo, biggest ejection, damage dealt, and KOs inflicted. |
+[**Launch the live demo**](https://glowku.github.io/smash-bross-pepe/) – no installation required.
 
 ---
 
-## 🎮 Gameplay & Controls
+## Features
 
-### Keyboard Controls (AZERTY layout)
+- **Launch Physics** – Charge your attack to determine knockback distance; max charge = instant KO beyond 3,000 miles.
+- **10 Unique Character Classes** – Each fighter has a distinct moveset, stats, and special abilities.
+- **Pixel‑Art Aesthetic** – Retro visuals combined with a 3D arena perspective for depth.
+- **Adaptive AI Opponent** – The CPU adjusts its strategy based on your playstyle.
+- **Low‑Latency Controls** – Responsive input for precise movement, aiming, and attack timing.
+- **Match Statistics** – Track damage dealt, longest combo, biggest ejection, and KOs per round.
+- **Best‑of‑3 KO System** – The first to land 3 knockouts wins the match.
+
+---
+
+## Gameplay & Controls
+
+The game uses an **AZERTY keyboard layout** by default (adjustable in the code).
 
 | Key | Action |
 |-----|--------|
 | `Q` / `D` | Move left / right |
-| `Z` / `Space` | Jump & recovery (air save) |
-| `J` (hold) | Aim + charge attack |
-| `K` (hold) | Charged special #1 |
-| `L` (hold) | Charged special #2 |
+| `Z` / `Space` | Jump (air recovery when launched beyond 2,500 miles) |
+| `J` (hold) | Aim (direction) + charge basic attack |
+| `K` (hold) | Charged special attack #1 |
+| `L` (hold) | Charged special attack #2 |
 
-### Combat Tips
+**Combat mechanics**:
 
-- 🎯 **Aim Any Direction**: Use `◀` `▶` + `Z` (up) + `S` (down = spike!). Attacks fire where you aim.
-- ⚡ **Charge Mechanics**: Full charge = 3,000-mile launch (KO) • Half charge ≈ 1,000 miles (survivable!)
-- 🛡️ **Defense**: Hold the direction opposite to the launch to resist it!
-- 🚀 **Air Save**: Launched past 2,500 miles? You get a free 3rd jump to recover.
-- 🏁 **Win Condition**: 3 KOs to win the match. Launch your opponent beyond 3,000 miles for an instant KO!
+- **Aim anywhere** – Use `◀` / `▶` + `Z` (up) + `S` (down for spike) to direct attacks.
+- **Charge levels** – 50% charge ≈ 1,000 miles (survivable); 100% charge = 3,000 miles (KO).
+- **Defense** – Hold the direction opposite to incoming knockback to reduce distance.
+- **Air save** – If you are launched beyond 2,500 miles, you gain a bonus third jump to recover.
+- **Win condition** – Land 3 KOs on your opponent.
 
 ---
 
-## 🛠️ Development
+## Development
 
-### Built With
+### Tech Stack
 
-- **Vanilla JavaScript** — no frameworks, pure browser performance
-- **HTML5 Canvas** — 2D rendering with pixel-art aesthetics
-- **CSS3** — responsive UI and visual effects
-- **GitHub Pages** — instant deployment and hosting
+- **JavaScript (ES6)** – Pure logic, no frameworks.
+- **HTML5 Canvas** – Rendering engine for pixel graphics and animations.
+- **CSS3** – UI styling, responsive layout, and transitions.
+- **GitHub Pages** – Hosting for the live demo.
 
 ### Project Structure
 smash-bross-pepe/
-├── index.html # Main game entry point
-├── 1.gif # Gameplay showcase animation
-├── LICENSE # MIT License
+├── index.html # Main game page
+├── 1.gif # Gameplay showcase
+├── LICENSE # MIT license
 ├── README.md # This file
 └── .github/
-└── workflows/ # GitHub Actions for Pages deployment
+└── workflows/ # GitHub Actions for automatic Pages deployment
 
 text
 
----
+### Local Setup
 
-## 🤝 Call for Contributors: Meme Expansion & Community Fork
-
-> **Who is ready to turn this into the ultimate internet culture brawler?**
-
-This project is **100% open-source**, highly modular, and engineered for easy extensibility. Developers, pixel artists, and creators are invited to fork the repository and contribute:
-
-### 🧩 What You Can Add
-
-- **New Meme Characters & Classes** — Custom sprites, abilities, and animations.
-- **Dynamic Arenas & Hazards** — Interactive maps, traps, and sound effects.
-- **Gameplay Mechanics** — Power-ups, balance updates, and multiplayer extensions.
-- **Visual Enhancements** — Pixel art, UI/UX improvements, and special effects.
-- **Multiplayer Support** — Local or online PvP modes.
-
-### 📝 How to Contribute
-
-1. **Fork the Repository** — Click the **Fork** button at the top right of this page.
-2. **Clone Your Local Repository**:
+1. Clone the repository:
    ```bash
    git clone https://github.com/glowku/smash-bross-pepe.git
-Create a Feature Branch:
+Open index.html in any modern browser – no build tools or dependencies required.
+
+(Optional) Serve with a local development server for live reload.
+
+Contributing
+We welcome contributions of all kinds – code, art, sound, documentation, or ideas. The project is structured to make adding new content straightforward.
+
+What you can add
+New characters – Create custom sprites (32×32 or 64×64 pixel art), define stats, and implement unique abilities.
+
+Arenas and hazards – Design interactive stages with moving platforms, traps, or environmental effects.
+
+Gameplay enhancements – Power‑ups, alternative win conditions, or local multiplayer support.
+
+Audio & visual polish – Sound effects, background music, improved UI, or particle systems.
+
+Contribution workflow
+Fork the repository on GitHub.
+
+Create a feature branch:
 
 bash
-git checkout -b feature/your-amazing-idea
-Commit Your Changes:
+git checkout -b feature/your-feature-name
+Make your changes and commit them with a clear message.
+
+Push to your fork:
 
 bash
-git commit -m "Add your amazing feature"
-Push to Your Fork:
+git push origin feature/your-feature-name
+Open a Pull Request against the main branch of the original repository.
 
-bash
-git push origin feature/your-amazing-idea
-Open a Pull Request — We'll review and merge it!
+Guidelines
+Keep code clean and well‑commented (JSDoc style appreciated).
 
-📄 License
+Ensure new features do not break existing gameplay.
+
+Test your changes in at least two different browsers.
+
+For art assets, please provide source files (PSD, Aseprite, etc.) alongside the exported sprites.
+
+License
+Distributed under the MIT License. See the LICENSE file for full details.
+
+Acknowledgments
+Inspired by classic platform fighters and internet meme culture.
+
+Built with passion by the open‑source community.
+
+<p align="center"> <a href="https://github.com/glowku/smash-bross-pepe"> <img src="https://img.shields.io/badge/Star_on_GitHub-181717?style=flat-square&logo=github&logoColor=white" alt="Star"> </a> <a href="https://glowku.github.io/smash-bross-pepe/"> <img src="https://img.shields.io/badge/Play_Now-ff69b4?style=flat-square&logo=googlechrome&logoColor=white" alt="Play"> </a> </p>
+<p align="center"> <sub>Made with 💥 and 🐸 by the community. Smash on!</sub> </p>
