@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEGEN PEPE SMASH BROS 3D - PIXEL EDITION</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+            background-color: #030308;
+            font-family: 'Press Start 2P', monospace;
+            color: #ffffff;
+        }
+        #game-canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        .pixelated {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        /* Effet Filtre Écran CRT Rétro */
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        /* Style Pixel Art Arcade */
+        .pixel-box {
+            border: 4px solid #ffffff;
+            box-shadow: 4px 4px 0px #000000;
+            image-rendering: pixelated;
+        }
+        .pixel-box-green {
+            border: 4px solid #22c55e;
+            box-shadow: 4px 4px 0px #052e16;
+        }
+        .pixel-box-red {
+            border: 4px solid #ef4444;
+            box-shadow: 4px 4px 0px #450a0a;
+        }
+        .pixel-box-yellow {
+            border: 4px solid #eab308;
+            box-shadow: 4px 4px 0px #422006;
+        }
+        .damage-pop {
+            animation: floatUp 0.8s ease-out forwards;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.4); }
+            100% { opacity: 0; transform: translateY(-55px) scale(0.8); }
+        }
+        /* Style des jauges de cooldown des sorts */
+        .cd-bar-bg {
+            background: #111827;
+            border: 2px solid #475569;
+        }
+        .cd-bar-fill {
+            background: #22c55e;
+            transition: width 0.1s linear;
+        }
+        .cd-ready {
+            box-shadow: 0 0 8px #22c55e;
+        }
+    </style>
+</head>
+<body class="bg-black text-white select-none relative">
+
+    <!-- Overlay Filtre Rétro CRT -->
+    <div class="crt-overlay fixed inset-0 z-30"></div>
+
+    <!-- Options du Jeu (Son + Clavier AZERTY/QWERTY) -->
+    <div class="absolute top-4 right-4 z-40 flex gap-3">
+        <button id="layout-toggle" onclick="toggleLayout()" class="pixel-box-yellow bg-yellow-900/90 hover:bg-yellow-800 text-yellow-300 p-2.5 text-xs font-bold transition cursor-pointer">
+            CLAVIER: AZERTY
+        </button>
+        <button id="audio-toggle" onclick="toggleAudio()" class="pixel-box bg-slate-900/90 hover:bg-slate-800 text-green-400 p-2.5 text-xs font-bold transition cursor-pointer">
+            SON: ON
+        </button>
+    </div>
+
+    <!-- Écran de Sélection des Personnages -->
+    <div id="selection-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 z-20 p-4">
+        <div class="text-center mb-4">
+            <h1 class="text-3xl md:text-5xl font-black text-yellow-400 tracking-widest drop-shadow-[4px_4px_0px_#000] uppercase mb-2">
+                DEGEN PEPE SMASH
+            </h1>
+            <p class="text-emerald-400 text-xs tracking-wider">ÉJECTION ROULEAU COMPRESSEUR PIXEL ART 3D</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 max-w-6xl w-full px-2 mb-4">
+            <!-- Cartes des 5 Pepes -->
+            <button onclick="selectCharacter(0)" onmouseenter="playAudioHover()" class="char-card pixel-box bg-slate-900 hover:bg-emerald-950 p-3 flex flex-col items-center transition transform hover:-translate-y-1 group">
+                <div class="w-24 h-24 bg-black border-2 border-slate-700 group-hover:border-emerald-400 mb-2 p-1">
+                    <canvas id="preview-0" class="w-full h-full pixelated"></canvas>
+                </div>
+                <h3 class="font-bold text-xs text-emerald-400 group-hover:text-white">TRACKSUIT</h3>
+                <p class="text-[8px] text-slate-400 mt-1 text-center font-mono">ÉQUILIBRÉ & RUSH</p>
+                <div class="mt-2 text-[8px] bg-black text-emerald-300 p-1 w-full text-left border border-emerald-800">
+                    <div>[J] Normal / Charge</div>
+                    <div>[K] Dash Épée (2s)</div>
+                    <div>[L] Giga Tornade (5s)</div>
+                </div>
+            </button>
+
+            <button onclick="selectCharacter(1)" onmouseenter="playAudioHover()" class="char-card pixel-box bg-slate-900 hover:bg-slate-800 p-3 flex flex-col items-center transition transform hover:-translate-y-1 group">
+                <div class="w-24 h-24 bg-black border-2 border-slate-700 group-hover:border-slate-300 mb-2 p-1">
+                    <canvas id="preview-1" class="w-full h-full pixelated"></canvas>
+                </div>
+                <h3 class="font-bold text-xs text-slate-200 group-hover:text-white">CHEVALIER</h3>
+                <p class="text-[8px] text-slate-400 mt-1 text-center font-mono">LOURD & TANQUE</p>
+                <div class="mt-2 text-[8px] bg-black text-slate-300 p-1 w-full text-left border border-slate-700">
+                    <div>[J] Normal / Charge</div>
+                    <div>[K] Frappe Hache (2.5s)</div>
+                    <div>[L] Marteau Smash (6s)</div>
+                </div>
+            </button>
+
+            <button onclick="selectCharacter(2)" onmouseenter="playAudioHover()" class="char-card pixel-box bg-slate-900 hover:bg-purple-950 p-3 flex flex-col items-center transition transform hover:-translate-y-1 group">
+                <div class="w-24 h-24 bg-black border-2 border-slate-700 group-hover:border-purple-400 mb-2 p-1">
+                    <canvas id="preview-2" class="w-full h-full pixelated"></canvas>
+                </div>
+                <h3 class="font-bold text-xs text-purple-400 group-hover:text-white">VOLEUR</h3>
+                <p class="text-[8px] text-slate-400 mt-1 text-center font-mono">RAPIDE & FURTIF</p>
+                <div class="mt-2 text-[8px] bg-black text-purple-300 p-1 w-full text-left border border-purple-800">
+                    <div>[J] Normal / Charge</div>
+                    <div>[K] Téléportation (3s)</div>
+                    <div>[L] Dagues Éclair (4.5s)</div>
+                </div>
+            </button>
+
+            <button onclick="selectCharacter(3)" onmouseenter="playAudioHover()" class="char-card pixel-box bg-slate-900 hover:bg-amber-950 p-3 flex flex-col items-center transition transform hover:-translate-y-1 group">
+                <div class="w-24 h-24 bg-black border-2 border-slate-700 group-hover:border-amber-400 mb-2 p-1">
+                    <canvas id="preview-3" class="w-full h-full pixelated"></canvas>
+                </div>
+                <h3 class="font-bold text-xs text-amber-400 group-hover:text-white">ARCHER</h3>
+                <p class="text-[8px] text-slate-400 mt-1 text-center font-mono">TIR DISTANCE</p>
+                <div class="mt-2 text-[8px] bg-black text-amber-300 p-1 w-full text-left border border-amber-800">
+                    <div>[J] Normal / Charge</div>
+                    <div>[K] Tir Double (2s)</div>
+                    <div>[L] Flèche Boom (5s)</div>
+                </div>
+            </button>
+
+            <button onclick="selectCharacter(4)" onmouseenter="playAudioHover()" class="char-card pixel-box bg-slate-900 hover:bg-cyan-950 p-3 flex flex-col items-center transition transform hover:-translate-y-1 group">
+                <div class="w-24 h-24 bg-black border-2 border-slate-700 group-hover:border-cyan-400 mb-2 p-1">
+                    <canvas id="preview-4" class="w-full h-full pixelated"></canvas>
+                </div>
+                <h3 class="font-bold text-xs text-cyan-400 group-hover:text-white">MAGE</h3>
+                <p class="text-[8px] text-slate-400 mt-1 text-center font-mono">SORTS & PROJECTION</p>
+                <div class="mt-2 text-[8px] bg-black text-cyan-300 p-1 w-full text-left border border-cyan-800">
+                    <div>[J] Normal / Charge</div>
+                    <div>[K] Orbe Glacé (2.5s)</div>
+                    <div>[L] Météore Smash (5.5s)</div>
+                </div>
+            </button>
+        </div>
+
+        <!-- Panneau de Commandes -->
+        <div class="pixel-box bg-slate-900 p-3 max-w-2xl w-full text-center">
+            <h4 class="text-xs text-yellow-400 mb-2 tracking-widest">REGLES & COMMANDES</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-[9px]">
+                <div class="bg-black p-2 border border-slate-700"><span id="ctrl-move" class="text-yellow-400">Q / D</span><br><span class="text-slate-400">DÉPLACEMENT</span></div>
+                <div class="bg-black p-2 border border-slate-700"><span id="ctrl-jump" class="text-yellow-400">Z / ESPACE</span><br><span class="text-slate-400">SAUT & DOUBLE SAUT</span></div>
+                <div class="bg-black p-2 border border-slate-700"><span class="text-yellow-400">J (MAINTENIR)</span><br><span class="text-slate-400">CHARGE DIRECTIONNELLE</span></div>
+                <div class="bg-black p-2 border border-slate-700"><span class="text-yellow-400">K & L / SPECIAUX</span><br><span class="text-slate-400">SORTS AVEC COOLDOWN</span></div>
+            </div>
+            <p class="text-[8px] text-red-400 mt-2">LIMITE : Éjection > 500 Miles = Out of Bounds. 3 Sorties pour Gagné !</p>
+        </div>
+    </div>
+
+    <!-- HUD Arcade -->
+    <div id="game-hud" class="absolute inset-x-0 bottom-4 flex justify-center items-end gap-6 pointer-events-none z-10 hidden">
+        <!-- JOUEUR 1 HUD -->
+        <div id="hud-p1" class="pixel-box-green bg-slate-950 p-3 w-60 text-center">
+            <div class="text-[9px] text-emerald-400 tracking-wider mb-1">JOUEUR 1</div>
+            <div id="p1-name" class="text-xs font-bold text-white truncate">PEPE TRACKSUIT</div>
+            <div id="p1-percent" class="text-3xl font-black text-white my-1">0%</div>
+
+            <!-- Jauge de Charge du Coup de Base -->
+            <div id="p1-charge-container" class="w-full bg-gray-900 h-2 border border-white mb-2 relative hidden">
+                <div id="p1-charge-bar" class="bg-yellow-400 h-full w-0"></div>
+            </div>
+
+            <!-- Sorts & Cooldowns P1 -->
+            <div class="grid grid-cols-2 gap-1 text-[8px] mt-1 font-mono">
+                <div class="bg-black p-1 border border-slate-700">
+                    <span class="text-yellow-400">K (S1)</span>
+                    <div id="p1-cd-k" class="cd-bar-bg h-1.5 w-full mt-0.5"><div class="cd-bar-fill h-full w-full"></div></div>
+                </div>
+                <div class="bg-black p-1 border border-slate-700">
+                    <span class="text-yellow-400">L (S2)</span>
+                    <div id="p1-cd-l" class="cd-bar-bg h-1.5 w-full mt-0.5"><div class="cd-bar-fill h-full w-full"></div></div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-2 mt-2" id="p1-lives"></div>
+        </div>
+
+        <div class="text-2xl font-black text-yellow-400 italic pb-6 drop-shadow-[2px_2px_0px_#000]">VS</div>
+
+        <!-- CPU HUD -->
+        <div id="hud-p2" class="pixel-box-red bg-slate-950 p-3 w-60 text-center">
+            <div class="text-[9px] text-red-400 tracking-wider mb-1">CPU (IA)</div>
+            <div id="p2-name" class="text-xs font-bold text-white truncate">PEPE CHEVALIER</div>
+            <div id="p2-percent" class="text-3xl font-black text-white my-1">0%</div>
+
+            <!-- Sorts & Cooldowns P2 -->
+            <div class="grid grid-cols-2 gap-1 text-[8px] mt-1 font-mono opacity-80">
+                <div class="bg-black p-1 border border-slate-700">
+                    <span class="text-red-400">K (S1)</span>
+                    <div id="p2-cd-k" class="cd-bar-bg h-1.5 w-full mt-0.5"><div class="cd-bar-fill h-full w-full"></div></div>
+                </div>
+                <div class="bg-black p-1 border border-slate-700">
+                    <span class="text-red-400">L (S2)</span>
+                    <div id="p2-cd-l" class="cd-bar-bg h-1.5 w-full mt-0.5"><div class="cd-bar-fill h-full w-full"></div></div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-2 mt-2" id="p2-lives"></div>
+        </div>
+    </div>
+
+    <!-- Flèche d'Indication d'Ennemi Hors-Écran avec Distance en Miles -->
+    <div id="offscreen-arrow" class="absolute z-20 pointer-events-none hidden flex items-center justify-center gap-1.5 bg-red-950/95 border-2 border-red-500 p-2 text-red-300 text-[10px] font-bold shadow-2xl animate-pulse">
+        <span id="arrow-icon" class="text-lg transform inline-block">➔</span>
+        <span id="arrow-dist">0.0 mi</span>
+    </div>
+
+    <!-- Écran Fin de Partie -->
+    <div id="game-over" class="absolute inset-0 bg-black/90 flex flex-col items-center justify-center z-30 hidden">
+        <h2 id="winner-title" class="text-4xl md:text-6xl font-black text-yellow-400 mb-2 tracking-widest drop-shadow-[4px_4px_0px_#000]">VICTOIRE !</h2>
+        <p id="winner-sub" class="text-slate-300 mb-8 text-xs md:text-sm text-center">Vous avez expédié l'ennemi au-delà des 500 miles !</p>
+        <button onclick="resetGame()" onmouseenter="playAudioHover()" class="pixel-box-yellow bg-yellow-500 hover:bg-yellow-400 text-black font-black px-8 py-4 text-sm transition cursor-pointer">
+            REJOUER
+        </button>
+    </div>
+
+    <!-- Conteneur pour chiffres de dégâts flottants -->
+    <div id="damage-container" class="absolute inset-0 pointer-events-none z-20 overflow-hidden"></div>
+
+    <canvas id="game-canvas"></canvas>
+
+    <script>
+        // --- CONFIGURATION CLAVIER AZERTY / QWERTY ---
+        let currentLayout = 'AZERTY';
+
+        function toggleLayout() {
+            currentLayout = currentLayout === 'AZERTY' ? 'QWERTY' : 'AZERTY';
+            document.getElementById('layout-toggle').innerText = `CLAVIER: ${currentLayout}`;
+            
+            const moveTxt = document.getElementById('ctrl-move');
+            const jumpTxt = document.getElementById('ctrl-jump');
+            if (currentLayout === 'AZERTY') {
+                moveTxt.innerText = 'Q / D';
+                jumpTxt.innerText = 'Z / ESPACE';
+            } else {
+                moveTxt.innerText = 'A / D';
+                jumpTxt.innerText = 'W / ESPACE';
+            }
+            playAudioSelect();
+        }
+
+        // --- SYNTHÉTISEUR AUDIO RÉTRO 8-BIT ---
+        let audioCtx = null;
+        let audioMuted = false;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function toggleAudio() {
+            audioMuted = !audioMuted;
+            document.getElementById('audio-toggle').innerText = audioMuted ? "SON: OFF" : "SON: ON";
+        }
+
+        function playSoundSweep(startFreq, endFreq, type, duration, vol=0.2) {
+            if (audioMuted) return;
+            initAudio();
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(startFreq, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(endFreq, audioCtx.currentTime + duration);
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function playNoise(duration, vol=0.3) {
+            if (audioMuted) return;
+            initAudio();
+            try {
+                const bufferSize = audioCtx.sampleRate * duration;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const gain = audioCtx.createGain();
+                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                noise.connect(gain);
+                gain.connect(audioCtx.destination);
+                noise.start();
+            } catch(e) {}
+        }
+
+        function playAudioHover() { playSoundSweep(250, 500, 'square', 0.05, 0.05); }
+        function playAudioSelect() { playSoundSweep(300, 800, 'triangle', 0.12, 0.15); }
+        function playAudioJump() { playSoundSweep(140, 400, 'square', 0.12, 0.12); }
+        function playAudioDoubleJump() { playSoundSweep(280, 650, 'square', 0.12, 0.12); }
+        function playAudioHit(step=1) { 
+            playSoundSweep(150 + step * 80, 50, 'sawtooth', 0.1, 0.2); 
+            playNoise(0.08, 0.15);
+        }
+        function playAudioSpecial(isCharged=false) {
+            if (isCharged) {
+                playSoundSweep(100, 950, 'sawtooth', 0.45, 0.35);
+                playNoise(0.35, 0.35);
+            } else {
+                playSoundSweep(300, 700, 'square', 0.2, 0.2);
+            }
+        }
+        function playAudioKO() {
+            playNoise(0.4, 0.4);
+            playSoundSweep(180, 30, 'sawtooth', 0.4, 0.3);
+        }
+
+        // --- GÉNÉRATEUR DE TEXTURES PIXEL ART ET DÉCORS ---
+        const CHAR_TYPES = [
+            { name: "Pepe Tracksuit", speed: 0.22, weight: 1.0, cdK: 120, cdL: 300 },
+            { name: "Pepe Chevalier", speed: 0.16, weight: 1.45, cdK: 150, cdL: 360 },
+            { name: "Pepe Voleur", speed: 0.26, weight: 0.82, cdK: 180, cdL: 270 },
+            { name: "Pepe Archer", speed: 0.20, weight: 0.90, cdK: 120, cdL: 300 },
+            { name: "Pepe Mage", speed: 0.18, weight: 0.95, cdK: 150, cdL: 330 }
+        ];
+
+        function createPepeTexture(typeIndex) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64; canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            ctx.clearRect(0, 0, 64, 64);
+
+            // Tête Verte Pepe
+            ctx.fillStyle = '#48b02c';
+            ctx.fillRect(16, 8, 32, 24);
+            ctx.fillRect(12, 16, 40, 16);
+
+            // Lèvres rouges
+            ctx.fillStyle = '#d32f2f';
+            ctx.fillRect(18, 28, 28, 5);
+            ctx.fillStyle = '#b71c1c';
+            ctx.fillRect(20, 31, 24, 2);
+
+            // Yeux
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(14, 12, 14, 10);
+            ctx.fillRect(36, 12, 14, 10);
+
+            // Paupières
+            ctx.fillStyle = '#388e3c';
+            ctx.fillRect(14, 12, 14, 4);
+            ctx.fillRect(36, 12, 14, 4);
+
+            // Pupilles
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(20, 18, 6, 3);
+            ctx.fillRect(40, 18, 6, 3);
+
+            // Équipement de la classe
+            if (typeIndex === 0) { // Tracksuit
+                ctx.fillStyle = '#f8fafc'; ctx.fillRect(14, 34, 36, 20);
+                ctx.fillStyle = '#84cc16'; ctx.fillRect(30, 34, 4, 20); ctx.fillRect(14, 42, 36, 3);
+                ctx.fillStyle = '#cbd5e1'; ctx.fillRect(52, 10, 4, 40);
+                ctx.fillStyle = '#78350f'; ctx.fillRect(50, 42, 8, 3);
+                ctx.fillStyle = '#ef4444'; ctx.fillRect(8, 36, 10, 14);
+            } else if (typeIndex === 1) { // Chevalier
+                ctx.fillStyle = '#94a3b8'; ctx.fillRect(20, 2, 24, 12); ctx.fillRect(28, 0, 8, 4);
+                ctx.fillStyle = '#64748b'; ctx.fillRect(14, 34, 36, 22);
+                ctx.fillStyle = '#94a3b8'; ctx.fillRect(50, 14, 12, 18);
+                ctx.fillStyle = '#78350f'; ctx.fillRect(52, 8, 3, 46);
+                ctx.fillStyle = '#d1d5db'; ctx.fillRect(4, 34, 12, 22);
+            } else if (typeIndex === 2) { // Voleur
+                ctx.fillStyle = '#1e1b4b'; ctx.fillRect(12, 4, 40, 16); ctx.fillRect(10, 12, 8, 24);
+                ctx.fillStyle = '#312e81'; ctx.fillRect(14, 34, 36, 22);
+                ctx.fillStyle = '#e2e8f0'; ctx.fillRect(50, 36, 10, 4); ctx.fillRect(54, 32, 3, 12);
+            } else if (typeIndex === 3) { // Archer
+                ctx.fillStyle = '#78350f'; ctx.fillRect(14, 34, 36, 22);
+                ctx.fillStyle = '#fef08a'; ctx.fillRect(20, 34, 24, 16);
+                ctx.fillStyle = '#b45309'; ctx.fillRect(50, 16, 3, 36);
+                ctx.fillStyle = '#f59e0b'; ctx.fillRect(8, 14, 6, 20);
+            } else if (typeIndex === 4) { // Mage
+                ctx.fillStyle = '#475569'; ctx.fillRect(12, 32, 40, 26);
+                ctx.fillStyle = '#78350f'; ctx.fillRect(6, 8, 4, 52);
+                ctx.fillStyle = '#0284c7'; ctx.fillRect(4, 4, 8, 8);
+                ctx.fillStyle = '#7c2d12'; ctx.fillRect(44, 40, 12, 14);
+            }
+
+            // Pieds
+            ctx.fillStyle = '#48b02c';
+            ctx.fillRect(20, 56, 8, 8);
+            ctx.fillRect(36, 56, 8, 8);
+
+            return canvas;
+        }
+
+        // Texture de Sol Pixel Art Rétro
+        function createStageTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 128; canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.imageSmoothingEnabled = false;
+
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, 128, 128);
+
+            // Motifs de dalles
+            ctx.fillStyle = '#334155';
+            for(let y=0; y<128; y+=32) {
+                ctx.fillRect(0, y, 128, 2);
+            }
+            for(let x=0; x<128; x+=32) {
+                ctx.fillRect(x, 0, 2, 128);
+            }
+            // Détails dalles altérées
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(10, 10, 12, 12);
+            ctx.fillRect(70, 45, 18, 10);
+            ctx.fillRect(40, 90, 15, 15);
+
+            return canvas;
+        }
+
+        CHAR_TYPES.forEach((char, index) => {
+            const previewCanvas = document.getElementById(`preview-${index}`);
+            if (previewCanvas) {
+                const ctx = previewCanvas.getContext('2d');
+                const pepeCv = createPepeTexture(index);
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(pepeCv, 0, 0, 64, 64, 0, 0, previewCanvas.width, previewCanvas.height);
+            }
+        });
+
+        // --- THREE.JS ENGINE & ARÈNE PIXEL ART SOIGNÉE ---
+        let scene, camera, renderer;
+        let p1, p2;
+        let stage = { platforms: [] };
+        let projectiles = [];
+        let particles = [];
+        let keys = {};
+        let gameActive = false;
+
+        let player1Type = 0;
+        let player2Type = 1;
+
+        window.addEventListener('keydown', e => { keys[e.code] = true; });
+        window.addEventListener('keyup', e => { keys[e.code] = false; });
+
+        window.addEventListener('mousedown', e => {
+            if(!gameActive) return;
+            if (e.button === 0) p1.startBasicCharge();
+            if (e.button === 2) p1.attackSpecial1();
+        });
+        window.addEventListener('mouseup', e => {
+            if(!gameActive) return;
+            if (e.button === 0) p1.releaseBasicCharge();
+        });
+        window.addEventListener('contextmenu', e => e.preventDefault());
+
+        function initScene() {
+            const canvas = document.getElementById('game-canvas');
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x030308);
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 6, 32);
+
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Éclairage Rétro
+            const ambient = new THREE.AmbientLight(0xffffff, 0.9);
+            scene.add(ambient);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+            dirLight.position.set(10, 20, 15);
+            scene.add(dirLight);
+
+            createRetroDecor();
+            window.addEventListener('resize', onWindowResize);
+        }
+
+        function createRetroDecor() {
+            const stageGroup = new THREE.Group();
+
+            // Texture Pixel Art du Sol
+            const stageTex = new THREE.CanvasTexture(createStageTexture());
+            stageTex.magFilter = THREE.NearestFilter;
+            stageTex.minFilter = THREE.NearestFilter;
+            stageTex.wrapS = THREE.RepeatWrapping;
+            stageTex.wrapT = THREE.RepeatWrapping;
+            stageTex.repeat.set(4, 1);
+
+            // Plateforme Principale (Solide)
+            const mainGeo = new THREE.BoxGeometry(26, 2, 6);
+            const mainMat = new THREE.MeshLambertMaterial({ map: stageTex });
+            const mainMesh = new THREE.Mesh(mainGeo, mainMat);
+            mainMesh.position.y = -1.0;
+            stageGroup.add(mainMesh);
+
+            // Bordure Pixel Bleue
+            const edgeGeo = new THREE.BoxGeometry(26.2, 0.2, 6.2);
+            const edgeMat = new THREE.MeshBasicMaterial({ color: 0x2563eb });
+            const edgeMesh = new THREE.Mesh(edgeGeo, edgeMat);
+            edgeMesh.position.y = 0.0;
+            stageGroup.add(edgeMesh);
+
+            // Pyramide/Structure inférieure
+            const bottomGeo = new THREE.ConeGeometry(12, 8, 4);
+            const bottomMat = new THREE.MeshLambertMaterial({ color: 0x0f172a });
+            const bottomMesh = new THREE.Mesh(bottomGeo, bottomMat);
+            bottomMesh.rotation.x = Math.PI;
+            bottomMesh.position.y = -5.0;
+            stageGroup.add(bottomMesh);
+
+            // Plateformes supérieures
+            const pGeo = new THREE.BoxGeometry(7, 0.4, 4);
+            const pMat = new THREE.MeshLambertMaterial({ color: 0x334155 });
+            
+            const p1Mesh = new THREE.Mesh(pGeo, pMat);
+            p1Mesh.position.set(-7.5, 4.2, 0);
+            stageGroup.add(p1Mesh);
+
+            const p1Edge = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.1, 4.2), new THREE.MeshBasicMaterial({ color: 0x9333ea }));
+            p1Edge.position.set(-7.5, 4.4, 0);
+            stageGroup.add(p1Edge);
+
+            const p2Mesh = new THREE.Mesh(pGeo, pMat);
+            p2Mesh.position.set(7.5, 4.2, 0);
+            stageGroup.add(p2Mesh);
+
+            const p2Edge = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.1, 4.2), new THREE.MeshBasicMaterial({ color: 0xd97706 }));
+            p2Edge.position.set(7.5, 4.4, 0);
+            stageGroup.add(p2Edge);
+
+            scene.add(stageGroup);
+
+            // --- ÉLÉMENTS DE DÉCOR EN PIXEL ART 3D ---
+            // 1. Arrière-Plan Montagnes & Nébuleuse Rétro
+            for(let i=0; i<6; i++) {
+                const mGeo = new THREE.ConeGeometry(8 + Math.random()*6, 12 + Math.random()*8, 4);
+                const mMat = new THREE.MeshBasicMaterial({ color: 0x0f172a, wireframe: true });
+                const mMesh = new THREE.Mesh(mGeo, mMat);
+                mMesh.position.set((i - 2.5) * 16, 2, -25);
+                scene.add(mMesh);
+            }
+
+            // 2. Statue Géante Pepe au centre du fond
+            const statueTex = new THREE.CanvasTexture(createPepeTexture(0));
+            statueTex.magFilter = THREE.NearestFilter;
+            const statueGeo = new THREE.PlaneGeometry(16, 16);
+            const statueMat = new THREE.MeshBasicMaterial({ map: statueTex, transparent: true, opacity: 0.22 });
+            const statueMesh = new THREE.Mesh(statueGeo, statueMat);
+            statueMesh.position.set(0, 10, -22);
+            scene.add(statueMesh);
+
+            // 3. Colonnes en Pierre Rétro
+            const pillarGeo = new THREE.BoxGeometry(1.6, 9, 1.6);
+            const pillarMat = new THREE.MeshLambertMaterial({ color: 0x334155 });
+            const pil1 = new THREE.Mesh(pillarGeo, pillarMat); pil1.position.set(-12, 3.5, -1);
+            const pil2 = new THREE.Mesh(pillarGeo, pillarMat); pil2.position.set(12, 3.5, -1);
+            scene.add(pil1); scene.add(pil2);
+
+            // 4. Braséros / Flambeaux Pixel Art sur les piliers
+            [pil1, pil2].forEach(p => {
+                const torchGeo = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+                const torchMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b });
+                const torch = new THREE.Mesh(torchGeo, torchMat);
+                torch.position.set(p.position.x, 8.2, p.position.z);
+                scene.add(torch);
+            });
+
+            // Plateformes pour la physique
+            stage.platforms = [
+                { topY: 0.1, minX: -13.1, maxX: 13.1 },  // Surface du sol principal
+                { topY: 4.45, minX: -11.1, maxX: -3.9 }, // Plateforme gauche
+                { topY: 4.45, minX: 3.9, maxX: 11.1 }   // Plateforme droite
+            ];
+        }
+
+
+        // --- CLASSE PEPE FIGHTER AVEC COOLDOWNS ET CHARGE DIRECTIONNELLE ---
+
+        class PepeFighter {
+            constructor(typeIndex, isCPU = false, startX = 0) {
+                this.typeIndex = typeIndex;
+                this.config = CHAR_TYPES[typeIndex];
+                this.isCPU = isCPU;
+
+                this.percent = 0;
+                this.lives = 3;
+                this.isGrounded = false;
+                this.facingRight = !isCPU;
+                this.canDoubleJump = true;
+
+                // Timers & Cooldowns
+                this.attackCooldown = 0;
+                this.cdTimerK = 0;
+                this.cdTimerL = 0;
+
+                // Charge de l'attaque de base (Maintenir J)
+                this.isChargingBase = false;
+                this.baseChargePower = 0;
+
+                // Vitesse & Position
+                this.velocity = new THREE.Vector3();
+                this.position = new THREE.Vector3(startX, 6, 0);
+
+                // Dimension exacte de collision (Pieds pile sur le sol)
+                this.halfWidth = 0.85;
+                this.feetOffset = 1.2;
+
+                this.mesh = this.createMesh();
+                scene.add(this.mesh);
+            }
+
+            createMesh() {
+                const group = new THREE.Group();
+
+                const textureCanvas = createPepeTexture(this.typeIndex);
+                const texture = new THREE.CanvasTexture(textureCanvas);
+                texture.magFilter = THREE.NearestFilter;
+                texture.minFilter = THREE.NearestFilter;
+
+                const mat = new THREE.MeshBasicMaterial({ 
+                    map: texture, 
+                    transparent: true,
+                    alphaTest: 0.1,
+                    side: THREE.DoubleSide
+                });
+
+                const geo = new THREE.PlaneGeometry(2.4, 2.4);
+                this.spriteMesh = new THREE.Mesh(geo, mat);
+                group.add(this.spriteMesh);
+
+                // Tag Joueur
+                const tagCanvas = document.createElement('canvas');
+                tagCanvas.width = 64; tagCanvas.height = 32;
+                const tctx = tagCanvas.getContext('2d');
+                tctx.fillStyle = this.isCPU ? '#ef4444' : '#22c55e';
+                tctx.font = 'bold 20px monospace';
+                tctx.textAlign = 'center';
+                tctx.fillText(this.isCPU ? 'CPU' : 'P1', 32, 22);
+
+                const tagTex = new THREE.CanvasTexture(tagCanvas);
+                const tagMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.6), new THREE.MeshBasicMaterial({ map: tagTex, transparent: true }));
+                tagMesh.position.y = 1.5;
+                group.add(tagMesh);
+
+                group.position.copy(this.position);
+                return group;
+            }
+
+            update() {
+                // Gravité
+                this.velocity.y -= 0.022;
+                this.velocity.x *= 0.86;
+
+                // Cooldowns des sorts
+                if (this.cdTimerK > 0) this.cdTimerK--;
+                if (this.cdTimerL > 0) this.cdTimerL--;
+                if (this.attackCooldown > 0) this.attackCooldown--;
+
+                // Gestion de la charge d'attaque normale
+                if (this.isChargingBase) {
+                    this.baseChargePower = Math.min(100, this.baseChargePower + 3);
+                    this.spriteMesh.rotation.z = (Math.random() - 0.5) * 0.35; // Tremblement de charge
+
+                    if (!this.isCPU && this === p1) {
+                        const chargeBox = document.getElementById('p1-charge-container');
+                        const chargeBar = document.getElementById('p1-charge-bar');
+                        if (chargeBox && chargeBar) {
+                            chargeBox.classList.remove('hidden');
+                            chargeBar.style.width = `${this.baseChargePower}%`;
+                        }
+                    }
+
+                    if (this.baseChargePower >= 100) {
+                        this.releaseBasicCharge();
+                    }
+                }
+
+                // COLLISION SOL PARFAITE (PIEDS TOUCHENT PILE LA SURFACE)
+                const prevY = this.position.y;
+                const nextY = this.position.y + this.velocity.y;
+                const nextX = this.position.x + this.velocity.x;
+
+                this.position.x = nextX;
+
+                let landed = false;
+                this.isGrounded = false;
+
+                const prevFeetY = prevY - this.feetOffset;
+                const nextFeetY = nextY - this.feetOffset;
+
+                if (this.velocity.y <= 0) { // Uniquement en descente
+                    for (let plat of stage.platforms) {
+                        if (this.position.x + this.halfWidth >= plat.minX && 
+                            this.position.x - this.halfWidth <= plat.maxX) {
+                            
+                            if (prevFeetY >= plat.topY - 0.2 && nextFeetY <= plat.topY) {
+                                this.position.y = plat.topY + this.feetOffset; // Alignement parfait
+                                this.velocity.y = 0;
+                                this.isGrounded = true;
+                                this.canDoubleJump = true;
+                                landed = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!landed) {
+                    this.position.y = nextY;
+                }
+
+                // Orientation du personnage
+                if (Math.abs(this.velocity.x) > 0.02) {
+                    this.facingRight = this.velocity.x > 0;
+                }
+                this.spriteMesh.scale.x = this.facingRight ? 1 : -1;
+
+                this.mesh.position.copy(this.position);
+
+                // TEST OUT OF BOUNDS / BLASTZONE (> 500 Miles = Éjection instantanée)
+                const distMiles = Math.abs(this.position.x) * 20; // Échelle de miles
+                if (distMiles > 500 || this.position.y < -12 || this.position.y > 22) {
+                    this.takeKO();
+                }
+
+                // Effet de particule de torches
+                if (Math.random() < 0.2) {
+                    createDustParticle(-12, 8.5, 0xf59e0b);
+                    createDustParticle(12, 8.5, 0xf59e0b);
+                }
+            }
+
+            jump() {
+                if (this.isGrounded) {
+                    this.velocity.y = 0.46;
+                    playAudioJump();
+                    this.createDustEffect();
+                } else if (this.canDoubleJump) {
+                    this.velocity.y = 0.42;
+                    this.canDoubleJump = false;
+                    playAudioDoubleJump();
+                    this.createDustEffect();
+                }
+            }
+
+            move(dir) {
+                this.velocity.x += dir * this.config.speed * 0.26;
+            }
+
+            // DÉMARRAGE DE LA CHARGE D'ATTAQUE BASE (MAINTIEN J)
+            startBasicCharge() {
+                if (this.attackCooldown > 0 || this.isChargingBase) return;
+                this.isChargingBase = true;
+                this.baseChargePower = 10;
+            }
+
+            // RELÂCHEMENT DE L'ATTAQUE CHARGÉE (PROJECTION SELON DIRECTION MAINTENUE)
+            releaseBasicCharge() {
+                if (!this.isChargingBase) return;
+                this.isChargingBase = false;
+
+                const chargeBox = document.getElementById('p1-charge-container');
+                if (chargeBox) chargeBox.classList.add('hidden');
+
+                const ratio = this.baseChargePower / 100;
+                this.attackCooldown = 15;
+
+                // Lecture de la direction enfoncée
+                let dirX = this.facingRight ? 1 : -1;
+                let dirY = 0.35;
+
+                const leftKey = currentLayout === 'AZERTY' ? (keys['KeyQ'] || keys['ArrowLeft']) : (keys['KeyA'] || keys['ArrowLeft']);
+                const rightKey = keys['KeyD'] || keys['ArrowRight'];
+                const upKey = currentLayout === 'AZERTY' ? (keys['KeyZ'] || keys['ArrowUp']) : (keys['KeyW'] || keys['ArrowUp']);
+
+                if (leftKey) dirX = -1;
+                if (rightKey) dirX = 1;
+                if (upKey) { dirY = 1.0; if (!leftKey && !rightKey) dirX *= 0.3; }
+
+                this.spriteMesh.position.x = dirX * 0.4;
+                setTimeout(() => this.spriteMesh.position.x = 0, 120);
+
+                createSlashParticle(this.position.x + dirX * 1.3, this.position.y);
+
+                const opponent = (this === p1) ? p2 : p1;
+                const dist = this.position.distanceTo(opponent.position);
+
+                if (dist < 2.8) {
+                    const damage = Math.floor(8 + ratio * 16);
+                    const knockback = (opponent.percent / 6 + damage) * (0.04 + ratio * 0.05) / opponent.config.weight;
+                    
+                    opponent.applyHit(damage, dirX * knockback, dirY * knockback + 0.15);
+                    playAudioHit(3);
+                }
+                this.baseChargePower = 0;
+            }
+
+            // ATTAQUE SPÉCIALE 1 (TOUCHE K)
+            attackSpecial1() {
+                if (this.cdTimerK > 0) return;
+                this.cdTimerK = this.config.cdK;
+
+                const dir = this.facingRight ? 1 : -1;
+                playAudioSpecial(false);
+
+                if (this.typeIndex === 0) { // Tracksuit: Dash tranchant
+                    this.velocity.x = dir * 0.65;
+                    this.releaseBasicCharge();
+                } else if (this.typeIndex === 1) { // Chevalier: Coup Hache
+                    this.velocity.y = -0.3;
+                    this.releaseBasicCharge();
+                } else if (this.typeIndex === 2) { // Voleur: Téléportation
+                    this.position.x += dir * 4.5;
+                    createDustParticle(this.position.x, this.position.y, 0xa855f7);
+                } else if (this.typeIndex === 3 || this.typeIndex === 4) { // Archer / Mage Projectile
+                    projectiles.push(new Projectile(
+                        this.position.x + dir * 1.2, 
+                        this.position.y, 
+                        dir, 
+                        this.typeIndex === 4 ? 0x38bdf8 : 0xf59e0b, 
+                        this,
+                        false
+                    ));
+                }
+            }
+
+            // ATTAQUE SPÉCIALE 2 (TOUCHE L - ULTIME)
+            attackSpecial2() {
+                if (this.cdTimerL > 0) return;
+                this.cdTimerL = this.config.cdL;
+
+                const dir = this.facingRight ? 1 : -1;
+                playAudioSpecial(true);
+                createExplosion(this.position.x, this.position.y);
+
+                if (this.typeIndex === 3 || this.typeIndex === 4) { // Super Projectile
+                    projectiles.push(new Projectile(
+                        this.position.x + dir * 1.5, 
+                        this.position.y, 
+                        dir, 
+                        this.typeIndex === 4 ? 0x0284c7 : 0xef4444, 
+                        this,
+                        true
+                    ));
+                } else { // Super Attaque physique éjecte au loin
+                    const opponent = (this === p1) ? p2 : p1;
+                    const dist = this.position.distanceTo(opponent.position);
+
+                    if (dist < 3.5) {
+                        const damage = 24;
+                        const knockback = (opponent.percent / 5 + damage) * 0.09 / opponent.config.weight;
+                        opponent.applyHit(damage, dir * knockback, knockback * 0.8 + 0.3);
+                    }
+                }
+            }
+
+            applyHit(damage, kbX, kbY) {
+                this.percent += damage;
+                this.velocity.x += kbX;
+                this.velocity.y += kbY;
+
+                spawnDamageText(this.position, damage);
+                createHitSpark(this.position.x, this.position.y);
+
+                updateHUD();
+            }
+
+            takeKO() {
+                this.lives--;
+                this.percent = 0;
+                playAudioKO();
+                createExplosion(this.position.x, this.position.y);
+
+                updateHUD();
+
+                if (this.lives <= 0) {
+                    endGame(this === p1 ? "CPU" : "JOUEUR 1");
+                } else {
+                    this.position.set(this.isCPU ? 5 : -5, 8, 0);
+                    this.velocity.set(0, 0, 0);
+                }
+            }
+
+            createDustEffect() {
+                for(let i=0; i<5; i++) {
+                    createDustParticle(this.position.x + (Math.random()-0.5), this.position.y - 1.2, 0x64748b);
+                }
+            }
+        }
+
+
+        // --- CLASSE PROJECTILE ---
+
+        class Projectile {
+            constructor(x, y, dir, color, owner, isCharged = false) {
+                this.position = new THREE.Vector3(x, y, 0);
+                this.dir = dir;
+                this.owner = owner;
+                this.isCharged = isCharged;
+                this.alive = true;
+                this.speed = isCharged ? 0.70 : 0.48;
+
+                const size = isCharged ? 0.8 : 0.38;
+                const geo = new THREE.SphereGeometry(size, 8, 8);
+                const mat = new THREE.MeshBasicMaterial({ color: color });
+                this.mesh = new THREE.Mesh(geo, mat);
+                this.mesh.position.copy(this.position);
+                scene.add(this.mesh);
+            }
+
+            update() {
+                this.position.x += this.dir * this.speed;
+                this.mesh.position.copy(this.position);
+
+                createDustParticle(this.position.x, this.position.y, this.isCharged ? 0xef4444 : 0x38bdf8);
+
+                const target = (this.owner === p1) ? p2 : p1;
+                if (this.position.distanceTo(target.position) < (this.isCharged ? 2.2 : 1.5)) {
+                    const damage = this.isCharged ? 26 : 10;
+                    const knockback = (target.percent / 5 + damage) * (this.isCharged ? 0.08 : 0.03) / target.config.weight;
+                    
+                    target.applyHit(damage, this.dir * knockback, knockback * 0.75 + 0.18);
+                    playAudioHit(3);
+                    this.destroy();
+                }
+
+                if (Math.abs(this.position.x) > 28) this.destroy();
+            }
+
+            destroy() {
+                if(!this.alive) return;
+                this.alive = false;
+                scene.remove(this.mesh);
+            }
+        }
+
+
+        // --- PARTICULES ET DÉGÂTS ---
+
+        function createDustParticle(x, y, colorHex) {
+            const geo = new THREE.PlaneGeometry(0.2, 0.2);
+            const mat = new THREE.MeshBasicMaterial({ color: colorHex, transparent: true, opacity: 0.8 });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.set(x, y, 0);
+            scene.add(mesh);
+
+            particles.push({
+                mesh: mesh,
+                vx: (Math.random() - 0.5) * 0.05,
+                vy: Math.random() * 0.05,
+                life: 16
+            });
+        }
+
+        function createSlashParticle(x, y) {
+            const geo = new THREE.RingGeometry(0.3, 1.2, 8, 1, 0, Math.PI * 0.8);
+            const mat = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.set(x, y, 0.1);
+            scene.add(mesh);
+
+            particles.push({ mesh: mesh, vx: 0, vy: 0, life: 6 });
+        }
+
+        function createHitSpark(x, y) {
+            for(let i=0; i<12; i++) {
+                createDustParticle(x + (Math.random()-0.5)*0.5, y + (Math.random()-0.5)*0.5, 0xfacc15);
+            }
+        }
+
+        function createExplosion(x, y) {
+            for(let i=0; i<30; i++) {
+                createDustParticle(x + (Math.random()-0.5)*3, y + (Math.random()-0.5)*3, 0xef4444);
+            }
+        }
+
+        function updateParticles() {
+            for(let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.life--;
+                p.mesh.position.x += p.vx;
+                p.mesh.position.y += p.vy;
+                p.mesh.scale.multiplyScalar(0.92);
+
+                if (p.life <= 0) {
+                    scene.remove(p.mesh);
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        function spawnDamageText(pos3D, amount) {
+            const container = document.getElementById('damage-container');
+            if(!container) return;
+
+            const tempV = pos3D.clone();
+            tempV.project(camera);
+
+            const x = (tempV.x * .5 + .5) * window.innerWidth;
+            const y = (tempV.y * -.5 + .5) * window.innerHeight;
+
+            const el = document.createElement('div');
+            el.className = 'absolute font-black text-2xl text-yellow-400 damage-pop drop-shadow-[2px_2px_0px_#000]';
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.innerText = `+${amount}%`;
+
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 800);
+        }
+
+
+        // --- INDICATEUR ENNEMI HORS ÉCRAN AVEC DISTANCE EN MILES ET LIMITE 500 MILES ---
+
+        function updateOffscreenTracker() {
+            const arrowElem = document.getElementById('offscreen-arrow');
+            const distElem = document.getElementById('arrow-dist');
+            const iconElem = document.getElementById('arrow-icon');
+
+            if (!gameActive || !p1 || !p2) {
+                arrowElem.classList.add('hidden');
+                return;
+            }
+
+            const proj = p2.position.clone().project(camera);
+            const isOffscreen = proj.x < -0.9 || proj.x > 0.9 || proj.y < -0.9 || proj.y > 0.9;
+
+            if (isOffscreen) {
+                arrowElem.classList.remove('hidden');
+
+                const margin = 60;
+                let screenX = (proj.x * 0.5 + 0.5) * window.innerWidth;
+                let screenY = (-proj.y * 0.5 + 0.5) * window.innerHeight;
+
+                screenX = Math.max(margin, Math.min(window.innerWidth - margin, screenX));
+                screenY = Math.max(margin, Math.min(window.innerHeight - margin, screenY));
+
+                arrowElem.style.left = `${screenX}px`;
+                arrowElem.style.top = `${screenY}px`;
+
+                const dx = p2.position.x - p1.position.x;
+                const dy = p2.position.y - p1.position.y;
+                const angleRad = Math.atan2(dy, dx);
+                const angleDeg = angleRad * (180 / Math.PI);
+
+                iconElem.style.transform = `rotate(${-angleDeg}deg)`;
+
+                // Calcul exact de la distance en miles (Échelle)
+                const distanceMiles = Math.floor(Math.abs(p2.position.x) * 20);
+                distElem.innerText = `${distanceMiles} mi`;
+
+                if (distanceMiles >= 500) {
+                    distElem.classList.add('text-yellow-400');
+                } else {
+                    distElem.classList.remove('text-yellow-400');
+                }
+            } else {
+                arrowElem.classList.add('hidden');
+            }
+        }
+
+
+        // --- IA DU CPU ---
+
+        function updateCPU() {
+            if (!p2 || !p1 || !gameActive) return;
+
+            const dx = p1.position.x - p2.position.x;
+            const dy = p1.position.y - p2.position.y;
+
+            if (Math.abs(dx) > 1.8) {
+                p2.move(dx > 0 ? 1 : -1);
+            } else {
+                if (Math.random() < 0.08) {
+                    p2.startBasicCharge();
+                    setTimeout(() => p2.releaseBasicCharge(), 250);
+                }
+            }
+
+            if (Math.abs(dx) > 3.5) {
+                if (Math.random() < 0.03) p2.attackSpecial1();
+                if (Math.random() < 0.015) p2.attackSpecial2();
+            }
+
+            if ((dy > 2 && Math.random() < 0.05) || (p2.position.y < 0 && Math.random() < 0.2)) {
+                p2.jump();
+            }
+
+            if (p2.position.x < -11) p2.move(1);
+            if (p2.position.x > 11) p2.move(-1);
+        }
+
+
+        // --- BOUCLE PRINCIPALE & HUD ---
+
+        function updateHUD() {
+            const p1PercentElem = document.getElementById('p1-percent');
+            p1PercentElem.innerText = `${Math.floor(p1.percent)}%`;
+            p1PercentElem.style.color = p1.percent > 100 ? '#ef4444' : (p1.percent > 50 ? '#f59e0b' : '#ffffff');
+
+            const p1LivesElem = document.getElementById('p1-lives');
+            p1LivesElem.innerHTML = '';
+            for(let i=0; i<p1.lives; i++) {
+                p1LivesElem.innerHTML += `<span class="w-4 h-4 bg-emerald-400 border border-emerald-900 inline-block"></span>`;
+            }
+
+            // Cooldowns visuels P1
+            const p1CdK = document.querySelector('#p1-cd-k .cd-bar-fill');
+            const p1CdL = document.querySelector('#p1-cd-l .cd-bar-fill');
+            if (p1CdK) p1CdK.style.width = `${100 - (p1.cdTimerK / p1.config.cdK * 100)}%`;
+            if (p1CdL) p1CdL.style.width = `${100 - (p1.cdTimerL / p1.config.cdL * 100)}%`;
+
+            const p2PercentElem = document.getElementById('p2-percent');
+            p2PercentElem.innerText = `${Math.floor(p2.percent)}%`;
+            p2PercentElem.style.color = p2.percent > 100 ? '#ef4444' : (p2.percent > 50 ? '#f59e0b' : '#ffffff');
+
+            const p2LivesElem = document.getElementById('p2-lives');
+            p2LivesElem.innerHTML = '';
+            for(let i=0; i<p2.lives; i++) {
+                p2LivesElem.innerHTML += `<span class="w-4 h-4 bg-red-500 border border-red-900 inline-block"></span>`;
+            }
+
+            const p2CdK = document.querySelector('#p2-cd-k .cd-bar-fill');
+            const p2CdL = document.querySelector('#p2-cd-l .cd-bar-fill');
+            if (p2CdK) p2CdK.style.width = `${100 - (p2.cdTimerK / p2.config.cdK * 100)}%`;
+            if (p2CdL) p2CdL.style.width = `${100 - (p2.cdTimerL / p2.config.cdL * 100)}%`;
+        }
+
+        function selectCharacter(index) {
+            playAudioSelect();
+            player1Type = index;
+
+            let cpuType = Math.floor(Math.random() * CHAR_TYPES.length);
+            if(cpuType === index) cpuType = (index + 1) % CHAR_TYPES.length;
+            player2Type = cpuType;
+
+            startGame();
+        }
+
+        function startGame() {
+            document.getElementById('selection-screen').classList.add('hidden');
+            document.getElementById('game-hud').classList.remove('hidden');
+            document.getElementById('game-over').classList.add('hidden');
+
+            if (!scene) initScene();
+
+            if (p1) scene.remove(p1.mesh);
+            if (p2) scene.remove(p2.mesh);
+            projectiles.forEach(p => p.destroy());
+            projectiles = [];
+
+            p1 = new PepeFighter(player1Type, false, -5);
+            p2 = new PepeFighter(player2Type, true, 5);
+
+            document.getElementById('p1-name').innerText = CHAR_TYPES[player1Type].name;
+            document.getElementById('p2-name').innerText = CHAR_TYPES[player2Type].name;
+
+            updateHUD();
+            gameActive = true;
+        }
+
+        function endGame(winnerName) {
+            gameActive = false;
+            document.getElementById('game-over').classList.remove('hidden');
+            document.getElementById('winner-title').innerText = winnerName === "JOUEUR 1" ? "VICTOIRE !" : "DÉFAITE !";
+            document.getElementById('winner-sub').innerText = winnerName === "JOUEUR 1" ? 
+                "Vous avez expédié l'ennemi à plus de 500 Miles d'altitude !" : "L'IA vous a propulsé hors de la stratosphère !";
+        }
+
+        function resetGame() {
+            playAudioSelect();
+            document.getElementById('selection-screen').classList.remove('hidden');
+            document.getElementById('game-hud').classList.add('hidden');
+            document.getElementById('game-over').classList.add('hidden');
+            document.getElementById('offscreen-arrow').classList.add('hidden');
+            gameActive = false;
+        }
+
+        function handleInput() {
+            if (!p1 || !gameActive) return;
+
+            const leftKey = currentLayout === 'AZERTY' ? (keys['KeyQ'] || keys['ArrowLeft']) : (keys['KeyA'] || keys['ArrowLeft']);
+            const rightKey = keys['KeyD'] || keys['ArrowRight'];
+            const jumpKey = currentLayout === 'AZERTY' ? (keys['KeyZ'] || keys['Space'] || keys['ArrowUp']) : (keys['KeyW'] || keys['Space'] || keys['ArrowUp']);
+
+            if (leftKey) p1.move(-1);
+            if (rightKey) p1.move(1);
+
+            if (jumpKey) {
+                p1.jump();
+                keys['KeyW'] = keys['KeyZ'] = keys['Space'] = keys['ArrowUp'] = false;
+            }
+
+            // Touche J : Maintien pour charger l'attaque de base
+            if (keys['KeyJ'] && !p1.isChargingBase) {
+                p1.startBasicCharge();
+            } else if (!keys['KeyJ'] && p1.isChargingBase) {
+                p1.releaseBasicCharge();
+            }
+
+            if (keys['KeyK']) { p1.attackSpecial1(); keys['KeyK'] = false; }
+            if (keys['KeyL']) { p1.attackSpecial2(); keys['KeyL'] = false; }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (gameActive) {
+                handleInput();
+                updateCPU();
+
+                p1.update();
+                p2.update();
+
+                // Suivi de caméra dynamique
+                const midX = (p1.position.x + p2.position.x) / 2;
+                const dist = Math.abs(p1.position.x - p2.position.x);
+                camera.position.x += (midX - camera.position.x) * 0.06;
+                camera.position.z += (Math.max(22, dist + 11) - camera.position.z) * 0.06;
+
+                for (let i = projectiles.length - 1; i >= 0; i--) {
+                    projectiles[i].update();
+                    if (!projectiles[i].alive) projectiles.splice(i, 1);
+                }
+
+                updateParticles();
+                updateOffscreenTracker();
+            }
+
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
+        function onWindowResize() {
+            if (!camera || !renderer) return;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.onload = function() {
+            initScene();
+            animate();
+        };
+    </script>
+</body>
+</html>
