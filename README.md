@@ -1,21 +1,21 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/glowku/smash-bross-pepe/main/1.gif" alt="Pepe & Cat Smash Gameplay Showcase" width="100%">
+  <img src="[https://raw.githubusercontent.com/glowku/smash-bross-pepe/main/1.gif](https://raw.githubusercontent.com/glowku/smash-bross-pepe/main/1.gif)" alt="Pepe & Cat Smash Gameplay Showcase" width="100%">
 </p>
 
 # PEPE & CAT SMASH
 
 <p align="center">
-  <a href="https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE">
-    <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=28a745&style=for-the-badge" alt="MIT License">
+  <a href="[https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE](https://github.com/glowku/smash-bross-pepe/blob/main/LICENSE)">
+    <img src="[https://img.shields.io/static/v1?label=license&message=MIT&color=28a745&style=for-the-badge](https://img.shields.io/static/v1?label=license&message=MIT&color=28a745&style=for-the-badge)" alt="MIT License">
   </a>
-  <a href="https://github.com/glowku/smash-bross-pepe/stargazers">
-    <img src="https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge&color=ffd700" alt="GitHub Stars">
+  <a href="[https://github.com/glowku/smash-bross-pepe/stargazers](https://github.com/glowku/smash-bross-pepe/stargazers)">
+    <img src="[https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge&color=ffd700](https://img.shields.io/github/stars/glowku/smash-bross-pepe?style=for-the-badge&color=ffd700)" alt="GitHub Stars">
   </a>
-  <a href="https://github.com/glowku/smash-bross-pepe/network/members">
-    <img src="https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge&color=007bff" alt="GitHub Forks">
+  <a href="[https://github.com/glowku/smash-bross-pepe/network/members](https://github.com/glowku/smash-bross-pepe/network/members)">
+    <img src="[https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge&color=007bff](https://img.shields.io/github/forks/glowku/smash-bross-pepe?style=for-the-badge&color=007bff)" alt="GitHub Forks">
   </a>
-  <a href="https://glowku.github.io/smash-bross-pepe/">
-    <img src="https://img.shields.io/badge/PLAY-ONLINE-ff69b4?style=for-the-badge" alt="Play Online">
+  <a href="[https://glowku.github.io/smash-bross-pepe/](https://glowku.github.io/smash-bross-pepe/)">
+    <img src="[https://img.shields.io/badge/PLAY-ONLINE-ff69b4?style=for-the-badge](https://img.shields.io/badge/PLAY-ONLINE-ff69b4?style=for-the-badge)" alt="Play Online">
   </a>
 </p>
 
@@ -43,5 +43,21 @@ This project is 100% open-source, highly modular, and engineered for easy extens
 
 1. **Fork the Repository**: Click the **Fork** button at the top right of this page.
 2. **Clone your Local Repository**:
-   ```bash
-   git clone [https://github.com/glowku/smash-bross-pepe.git](https://github.com/glowku/smash-bross-pepe.git)
+```bash
+git clone https://github.com/glowku/smash-bross-pepe.git
+```
+## Key Features
+
+* **10 Playable Classes**: Tracksuit, Knight, Rogue, Archer, Mage, Cat Shogun, Cat Ninja, Cat Wizard, Cat Berserk, and Cat Astro.
+* **High-Impact Knockback Engine**: Charge special attacks to trigger massive 3,000-mile ejection trajectories.
+* **Zero External Dependencies**: Pure HTML5, CSS3, and JavaScript implementation for maximum performance and instant loading.
+* **Retro Arcade Architecture**: Smooth physics loop, custom hitboxes, and fluid controls.
+
+## Controls & Inputs
+
+| Action | Control Scheme (AZERTY / QWERTY) |
+| :--- | :--- |
+| **Movement** | `Q` / `D` or `A` / `D` |
+| **Jump & Recovery** | `J` or `SPACE` |
+| **Aim & Charge Attack** | Hold `J` |
+| **Charged Special Attacks** | `K`, `L`, `M` |
